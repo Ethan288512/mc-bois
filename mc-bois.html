@@ -1,0 +1,1555 @@
+<head></head><body>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.C. Bois - Menuiserie • Agencement • Décoration | Granville (50320)</title>
+    <meta name="description" content="M.C. Bois, entreprise de menuiserie, agencement et décoration à Granville (50320). Savoir-faire artisanal et créations sur mesure.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="M.C. Bois - Menuiserie • Agencement • Décoration">
+    <meta property="og:description" content="Entreprise de menuiserie à Granville (50320)">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           INSTRUCTIONS D'UTILISATION
+           ============================================
+           
+           1. LOGO : Placez votre fichier logo.png dans le même dossier que index.html
+              Le script extraira automatiquement la couleur principale du logo
+              
+           2. IMAGES DE PROJETS : Pour remplacer les placeholders :
+              - Créez un dossier "images" à côté de index.html
+              - Nommez vos photos : project1.jpg, project2.jpg, ... project6.jpg
+              - Modifiez la variable PROJECTS dans le JavaScript (ligne ~1100)
+              - Exemple: image: 'images/project1.jpg'
+              
+           3. Le site fonctionne parfaitement SANS images réelles
+              Les placeholders SVG sont là pour la démonstration
+        ============================================ */
+        
+        :root {
+            /* Couleurs extraites du logo (fallback en jaune) */
+            --color-primary: #F7B500;
+            --color-primary-dark: #D89E00;
+            --color-primary-light: #FFC933;
+            --color-text: #1A1A1A;
+            --color-text-light: #666666;
+            --color-bg: #FAFAFA;
+            --color-bg-alt: #FFFFFF;
+            --color-border: #E5E5E5;
+            --color-accent: #2C2C2C;
+            
+            /* Typographie */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            /* Espacements */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 6rem;
+            
+            /* Transitions */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* ============================================
+           HEADER & NAVIGATION
+           ============================================ */
+        
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .logo {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text);
+            letter-spacing: -0.5px;
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--color-bg);
+        }
+        
+        .contact-link:hover {
+            color: var(--color-primary);
+            background: rgba(247, 181, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .contact-link svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--color-text);
+            margin: 5px 0;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+        
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        
+        .hero {
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FAFAFA 0%, #FFFFFF 50%, #F5F5F5 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 2rem;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(247, 181, 0, 0.05) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(247, 181, 0, 0.1);
+            border: 1px solid rgba(247, 181, 0, 0.3);
+            border-radius: 50px;
+            color: var(--color-primary-dark);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--color-text-light);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(247, 181, 0, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(247, 181, 0, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 2px solid var(--color-primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(247, 181, 0, 0.3);
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 5rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* ============================================
+           SECTIONS COMMUNES
+           ============================================ */
+        
+        .section {
+            padding: var(--spacing-xl) 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(247, 181, 0, 0.1);
+            border-radius: 50px;
+            color: var(--color-primary-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        /* ============================================
+           SERVICES
+           ============================================ */
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .service-card {
+            background: var(--color-bg-alt);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+            transition: var(--transition);
+            border-top: 4px solid var(--color-primary);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 2rem;
+            color: var(--color-primary);
+            transition: var(--transition);
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            letter-spacing: -0.5px;
+        }
+        
+        .service-description {
+            color: var(--color-text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        
+        .service-features li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--color-text-light);
+        }
+        
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* ============================================
+           RÉALISATIONS
+           ============================================ */
+        
+        .projects-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 2rem;
+            background: rgba(247, 181, 0, 0.05);
+            border-radius: 15px;
+            border: 1px dashed var(--color-primary);
+        }
+        
+        .projects-intro p {
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .project-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        
+        .project-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            background: linear-gradient(135deg, rgba(247, 181, 0, 0.1) 0%, rgba(247, 181, 0, 0.05) 100%);
+            transition: var(--transition);
+        }
+        
+        .project-card:hover .project-placeholder {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+            padding: 3rem 2rem 2rem;
+            color: white;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+        
+        .project-card:hover .project-overlay {
+            transform: translateY(0);
+        }
+        
+        .project-overlay h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .instagram-cta {
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        /* ============================================
+           LIGHTBOX
+           ============================================ */
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.97);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 15px;
+        }
+        
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.3rem;
+            font-family: var(--font-heading);
+        }
+        
+        .lightbox-close,
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 50%;
+            transition: var(--transition);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-close {
+            top: 2rem;
+            right: 2rem;
+        }
+        
+        .lightbox-prev {
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-next {
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-close:hover,
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+        
+        /* ============================================
+           INSTAGRAM
+           ============================================ */
+        
+        .instagram-section {
+            background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+            text-align: center;
+        }
+        
+        .instagram-widget {
+            margin-top: 3rem;
+            padding: 3rem;
+            background: var(--color-bg-alt);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .instagram-widget p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        /* ============================================
+           À PROPOS
+           ============================================ */
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about-content p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--color-text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .about-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            background: var(--color-bg-alt);
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            border-color: var(--color-primary);
+        }
+        
+        .badge svg {
+            width: 28px;
+            height: 28px;
+            color: var(--color-primary);
+        }
+        
+        /* ============================================
+           CONTACT
+           ============================================ */
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .contact-card {
+            background: var(--color-bg-alt);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: var(--color-primary);
+        }
+        
+        .contact-card svg {
+            width: 60px;
+            height: 60px;
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .contact-card:hover svg {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .contact-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .contact-card a:hover {
+            color: var(--color-primary);
+        }
+        
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            height: 450px;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* ============================================
+           FOOTER
+           ============================================ */
+        
+        .footer {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2C2C2C 100%);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h3 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+        
+        .footer-section a:hover {
+            color: var(--color-primary);
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            font-style: italic;
+            opacity: 0.7;
+        }
+        
+        /* ============================================
+           SCROLL TO TOP
+           ============================================ */
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 55px;
+            height: 55px;
+            background: var(--color-primary);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(247, 181, 0, 0.4);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+        }
+        
+        .scroll-top svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .logo {
+                height: 50px;
+            }
+            
+            .nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 400px;
+                height: 100vh;
+                background: var(--color-bg-alt);
+                flex-direction: column;
+                padding: 6rem 2rem 2rem;
+                box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+                transition: var(--transition);
+                align-items: flex-start;
+            }
+            
+            .nav.active {
+                right: 0;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+            }
+            
+            .nav-links a {
+                font-size: 1.3rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                width: 100%;
+                margin-top: 2rem;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+            
+            .hero {
+                min-height: 85vh;
+                padding: 3rem 1rem;
+            }
+            
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .section {
+                padding: var(--spacing-lg) 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo M.C. Bois" class="logo" id="logo-img" onerror="this.style.display='none'" style="display: none;">
+                <span class="logo-text">M.C. Bois</span>
+            </div>
+            
+            <nav class="nav" id="nav">
+                <ul class="nav-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#realisations">Réalisations</a></li>
+                    <li><a href="#instagram">Instagram</a></li>
+                    <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                
+                <div class="contact-info">
+                    <a href="tel:0670343786" class="contact-link" aria-label="Téléphone">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>06.70.34.37.86</span>
+                    </a>
+                    
+                    <a href="mailto:morin.corentin@hotmail.com" class="contact-link" aria-label="Email">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>Email</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+    
+    <!-- HERO -->
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>✨</span>
+                <span>Artisan menuisier depuis Granville</span>
+            </div>
+            
+            <h1>M.C. Bois</h1>
+            
+            <p class="hero-subtitle">
+                Artisan menuisier passionné, je crée des espaces uniques à travers la menuiserie sur mesure, l'agencement intérieur et la décoration personnalisée. Chaque projet est une œuvre façonnée avec précision et savoir-faire.
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="tel:0670343786" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span>Appeler maintenant</span>
+                </a>
+                <a href="https://www.instagram.com/m.c_bois/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    <span>Voir Instagram</span>
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Sur mesure</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">📍</span>
+                    <span class="stat-label">Granville 50320</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">✨</span>
+                    <span class="stat-label">Qualité artisanale</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SERVICES -->
+    <section class="section" id="services">
+        <div class="section-header">
+            <span class="section-tag">Nos expertises</span>
+            <h2 class="section-title">Nos Services</h2>
+            <p class="section-subtitle">Un savoir-faire artisanal au service de vos projets</p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+                <h3>Menuiserie</h3>
+                <p class="service-description">Fabrication sur mesure de meubles et éléments en bois avec une attention particulière aux détails.</p>
+                <ul class="service-features">
+                    <li>Meubles sur mesure adaptés à vos espaces</li>
+                    <li>Portes et fenêtres en bois noble</li>
+                    <li>Escaliers et garde-corps design</li>
+                </ul>
+            </div>
+            
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <h3>Agencement</h3>
+                <p class="service-description">Optimisation et aménagement de vos espaces intérieurs pour allier fonctionnalité et esthétique.</p>
+                <ul class="service-features">
+                    <li>Agencement de cuisines modernes</li>
+                    <li>Dressings et rangements optimisés</li>
+                    <li>Bibliothèques et meubles intégrés</li>
+                </ul>
+            </div>
+            
+            <div class="service-card">
+                <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6"></path>
+                    <path d="m4.93 4.93 4.24 4.24m5.66 5.66 4.24 4.24"></path>
+                    <path d="M1 12h6m6 0h6"></path>
+                    <path d="m4.93 19.07 4.24-4.24m5.66-5.66 4.24-4.24"></path>
+                </svg>
+                <h3>Décoration</h3>
+                <p class="service-description">Création d'éléments décoratifs en bois pour personnaliser et embellir vos intérieurs.</p>
+                <ul class="service-features">
+                    <li>Habillages muraux créatifs</li>
+                    <li>Éléments décoratifs sur mesure</li>
+                    <li>Finitions et patines personnalisées</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <!-- RÉALISATIONS -->
+    <section class="section" id="realisations">
+        <div class="section-header">
+            <span class="section-tag">Portfolio</span>
+            <h2 class="section-title">Nos Réalisations</h2>
+            <p class="section-subtitle">Découvrez nos créations récentes</p>
+        </div>
+        
+        <div class="projects-intro">
+            <p>
+                🎨 <strong>Nos réalisations complètes sont disponibles sur Instagram</strong> @m.c_bois<br>
+                Découvrez l'ensemble de nos projets, nos techniques et l'envers du décor.
+            </p>
+        </div>
+        
+        
+        
+        <div class="instagram-cta">
+            <a href="https://www.instagram.com/m.c_bois/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Voir toutes nos réalisations sur Instagram</span>
+            </a>
+        </div>
+    </section>
+    
+    <!-- INSTAGRAM -->
+    <section class="section instagram-section" id="instagram">
+        <div class="section-header">
+            <span class="section-tag">Réseaux sociaux</span>
+            <h2 class="section-title">Suivez-nous sur Instagram</h2>
+            <p class="section-subtitle">Restez informé de nos dernières créations</p>
+        </div>
+        
+        <div class="instagram-widget">
+            <p>
+                📸 Retrouvez l'ensemble de nos réalisations, nos coulisses d'atelier et nos inspirations sur <strong>@m.c_bois</strong>
+            </p>
+            <p style="margin-bottom: 2rem; color: var(--color-text-light);">
+                Des nouveaux projets sont partagés régulièrement pour vous inspirer.
+            </p>
+            <a href="https://www.instagram.com/m.c_bois/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span>Suivre @m.c_bois</span>
+            </a>
+        </div>
+    </section>
+    
+    <!-- À PROPOS -->
+    <section class="section" id="apropos">
+        <div class="section-header">
+            <span class="section-tag">Notre histoire</span>
+            <h2 class="section-title">À propos</h2>
+        </div>
+        
+        <div class="about-content">
+            <p>
+                M.C. Bois est une entreprise artisanale spécialisée dans la menuiserie, l'agencement et la décoration sur mesure. Fort d'un savoir-faire traditionnel et d'une passion pour le travail du bois, nous accompagnons particuliers et professionnels dans la réalisation de leurs projets.
+            </p>
+            <p>
+                Basée à Granville (50320), nous intervenons sur toute la région pour créer des espaces uniques qui reflètent votre personnalité. Chaque projet est une collaboration où qualité, précision et créativité sont au cœur de notre démarche.
+            </p>
+            
+            <div class="about-badges">
+                <div class="badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span><strong>📍 Granville 50320</strong></span>
+                </div>
+                <div class="badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                    <span><strong>Menuiserie • Agencement • Décoration</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <div class="section-header">
+            <span class="section-tag">Parlons de votre projet</span>
+            <h2 class="section-title">Contact</h2>
+            <p class="section-subtitle">N'hésitez pas à nous contacter</p>
+        </div>
+        
+        <div class="contact-grid">
+            <div class="contact-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <h3>Téléphone</h3>
+                <a href="tel:0670343786">06.70.34.37.86</a>
+            </div>
+            
+            <div class="contact-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <h3>Email</h3>
+                <a href="mailto:morin.corentin@hotmail.com">morin.corentin@hotmail.com</a>
+            </div>
+            
+            <div class="contact-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <h3>Localisation</h3>
+                <p><strong>Granville et alentours</strong><br>50320, Normandie</p>
+            </div>
+        </div>
+            <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>M.C. Bois</h3>
+                <p>Menuiserie • Agencement • Décoration</p>
+                <p>📍 50320 Granville</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Navigation</h3>
+                <a href="#accueil">Accueil</a>
+                <a href="#services">Services</a>
+                <a href="#realisations">Réalisations</a>
+                <a href="#apropos">À propos</a>
+                <a href="#contact">Contact</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <a href="tel:0670343786">06.70.34.37.86</a>
+                <a href="mailto:morin.corentin@hotmail.com">morin.corentin@hotmail.com</a>
+                <a href="https://www.instagram.com/m.c_bois/" target="_blank" rel="noopener noreferrer">@m.c_bois</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 M.C. Bois</p>
+            <p class="footer-note">Site créé par Ethan Lerosier</p>
+        </div>
+    </footer>
+    
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Fermer">×</button>
+        <button class="lightbox-prev" id="lightbox-prev" aria-label="Précédent">‹</button>
+        <button class="lightbox-next" id="lightbox-next" aria-label="Suivant">›</button>
+        <div class="lightbox-content">
+            <div class="lightbox-image" id="lightbox-image"></div>
+            <p class="lightbox-caption" id="lightbox-caption"></p>
+        </div>
+    </div>
+    
+    <!-- SCROLL TOP -->
+    <button class="scroll-top visible" id="scroll-top" aria-label="Retour en haut">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 15l-6-6-6 6"></path>
+        </svg>
+    </button>
+    
+    <script>
+        // CONFIGURATION PROJETS
+        const PROJECTS = [
+            { id: 1, title: 'Projet Menuiserie 1', image: null },
+            { id: 2, title: 'Projet Agencement 2', image: null },
+            { id: 3, title: 'Projet Décoration 3', image: null },
+            { id: 4, title: 'Projet Sur Mesure 4', image: null },
+            { id: 5, title: 'Projet Cuisine 5', image: null },
+            { id: 6, title: 'Projet Dressing 6', image: null }
+        ];
+        
+        // EXTRACTION COULEUR LOGO
+        function extractColorFromLogo() {
+            const img = document.getElementById('logo-img');
+            if (!img || !img.complete || img.naturalWidth === 0) {
+                console.log('Logo non disponible, utilisation palette par défaut');
+                return;
+            }
+            
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                const colorCount = {};
+                
+                for (let i = 0; i < data.length; i += 40) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    const a = data[i + 3];
+                    
+                    if (a > 128 && (r + g + b) > 100 && (r + g + b) < 700) {
+                        const rgb = `${r},${g},${b}`;
+                        colorCount[rgb] = (colorCount[rgb] || 0) + 1;
+                    }
+                }
+                
+                let dominantColor = null;
+                let maxCount = 0;
+                
+                for (const [color, count] of Object.entries(colorCount)) {
+                    if (count > maxCount) {
+                        maxCount = count;
+                        dominantColor = color;
+                    }
+                }
+                
+                if (dominantColor) {
+                    const [r, g, b] = dominantColor.split(',').map(Number);
+                    document.documentElement.style.setProperty('--color-primary', `rgb(${r}, ${g}, ${b})`);
+                    document.documentElement.style.setProperty('--color-primary-dark', `rgb(${Math.max(0, r - 30)}, ${Math.max(0, g - 30)}, ${Math.max(0, b - 30)})`);
+                    document.documentElement.style.setProperty('--color-primary-light', `rgb(${Math.min(255, r + 30)}, ${Math.min(255, g + 30)}, ${Math.min(255, b + 30)})`);
+                }
+            } catch (error) {
+                console.log('Extraction couleur échouée, palette par défaut utilisée');
+            }
+        }
+        
+        // MENU MOBILE
+        const menuToggle = document.getElementById('menu-toggle');
+        const nav = document.getElementById('nav');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+        
+        // PROJETS
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            const icons = ['🪵', '🪚', '🔨', '📐', '✨', '🎨'];
+            
+            PROJECTS.forEach((project, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.dataset.index = index;
+                
+                if (project.image) {
+                    const img = document.createElement('img');
+                    img.src = project.image;
+                    img.alt = project.title;
+                    img.className = 'project-image';
+                    img.onerror = () => {
+                        img.remove();
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'project-placeholder';
+                        placeholder.textContent = icons[index % icons.length];
+                        card.insertBefore(placeholder, card.firstChild);
+                    };
+                    card.appendChild(img);
+                } else {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'project-placeholder';
+                    placeholder.textContent = icons[index % icons.length];
+                    card.appendChild(placeholder);
+                }
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'project-overlay';
+                overlay.innerHTML = `<h3>${project.title}</h3><p>Cliquez pour agrandir</p>`;
+                card.appendChild(overlay);
+                
+                card.addEventListener('click', () => openLightbox(index));
+                grid.appendChild(card);
+            });
+        }
+        
+        // LIGHTBOX
+        let currentImageIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        
+        function openLightbox(index) {
+            currentImageIndex = index;
+            showLightboxImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function showLightboxImage() {
+            const project = PROJECTS[currentImageIndex];
+            const icons = ['🪵', '🪚', '🔨', '📐', '✨', '🎨'];
+            lightboxCaption.textContent = project.title;
+            
+            if (project.image) {
+                lightboxImage.innerHTML = `<img src="${project.image}" alt="${project.title}" style="max-width: 100%; max-height: 80vh; border-radius: 10px;">`;
+            } else {
+                lightboxImage.innerHTML = `
+                    <div style="width: 600px; height: 600px; max-width: 80vw; max-height: 60vh; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 8rem;">
+                        ${icons[currentImageIndex % icons.length]}
+                    </div>
+                `;
+            }
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % PROJECTS.length;
+            showLightboxImage();
+        }
+        
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + PROJECTS.length) % PROJECTS.length;
+            showLightboxImage();
+        }
+        
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', nextImage);
+        lightboxPrev.addEventListener('click', prevImage);
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+        
+        // SMOOTH SCROLL
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // SCROLL TO TOP
+        const scrollTopBtn = document.getElementById('scroll-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // INITIALISATION
+        document.addEventListener('DOMContentLoaded', () => {
+            extractColorFromLogo();
+            renderProjects();
+            
+            // Retry color extraction when logo loads
+            const logoImg = document.getElementById('logo-img');
+            if (logoImg) {
+                logoImg.addEventListener('load', extractColorFromLogo);
+            }
+        });
+    </script>
+
+</body></html>
